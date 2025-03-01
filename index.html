@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haunted Mirror</title>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: black;
+            color: white;
+            font-family: 'Creepster', cursive;
+            text-align: center;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            position: relative;
+        }
+        #video {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scaleX(-1);
+            filter: brightness(0.7) contrast(1.2);
+            display: none;
+        }
+        .glitch {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('https://clipart.info/images/ccovers/1634921231blood-splatter-png-20.png');
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .ghost {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            background: url('https://static.vecteezy.com/system/resources/previews/052/389/604/non_2x/a-terrifying-female-zombie-reaches-out-with-claw-like-hands-against-a-stark-transparent-background-in-a-chilling-portrayal-female-zombie-reaching-out-with-claws-on-transparent-background-free-png.png') no-repeat center;
+            background-size: contain;
+            display: none;
+        }
+        .text {
+            position: absolute;
+            top: 20%;
+            width: 100%;
+            font-size: 2rem;
+            color: red;
+            opacity: 0;
+            text-shadow: 0 0 20px red;
+            animation: flicker 1s infinite alternate;
+            transition: opacity 1s;
+        }
+        .scary-img {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 1;
+            animation: blink 1s infinite alternate;
+        }
+        @keyframes flicker {
+            0% { opacity: 0.2; }
+            100% { opacity: 1; }
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <video id="video" autoplay></video>
+    <div id="glitch" class="glitch"></div>
+    <div id="ghost" class="ghost"></div>
+    <audio id="whisper" src="" preload="auto"></audio>
+    <img class="scary-img" src="https://png.pngtree.com/png-vector/20240220/ourmid/pngtree-creepy-old-witch-wearing-hat-scary-woman-wicked-ai-png-image_11512383.png" id="scaryImage">
+    <script>
+        setTimeout(() => {
+            document.getElementById("whisper").play();
+            document.getElementById("glitch").style.opacity = "0.5";
+            document.getElementById("text").style.opacity = "1";
+        }, 3000);
+
+        setTimeout(() => {
+            document.getElementById("text").style.opacity = "0";
+        }, 11000);
+
+        setTimeout(() => {
+            document.getElementById("scaryImage").style.animation = "none";
+            document.getElementById("scaryImage").style.opacity = "0";
+            document.getElementById("video").style.display = "block";
+            navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+                document.getElementById('video').srcObject = stream;
+            }).catch(err => {
+                console.error("Camera access denied", err);
+            });
+        }, 6000);
+
+        setTimeout(() => {
+            document.getElementById("glitch").style.opacity = "1";
+            document.getElementById("ghost").style.display = "block";
+            document.getElementById("scream").play();
+        }, 10000);
+    </script>
+</body>
+</html>   
